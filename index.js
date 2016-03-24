@@ -34,7 +34,7 @@
         text: heading.textContent || heading.innerText,
         level: level,
         node: heading,
-        children: [],
+        children: []
       }
 
       if (lastLevel && level < lastLevel) {
@@ -54,20 +54,20 @@
 
   Outline.prototype.warn = function () {
     var warnings = this.audit()
-    var end = '';
+    var end = ''
 
     if (warnings.length === 0) {
-      end = '💯 ' + 'Outline audit over. 0 warning found. Congratulations!' 
+      end = '💯 ' + 'Outline audit over. 0 warning found. Congratulations!'
     } else if (warnings.length === 1) {
-      end = '❗️ ' + 'Outline audit over. 1 warning found. Not bad!' 
+      end = '❗️ ' + 'Outline audit over. 1 warning found. Not bad!'
     } else {
-      end = '💢 ' + 'Outline audit over. ' + warnings.length + ' warnings found. Uh-oh!' 
+      end = '💢 ' + 'Outline audit over. ' + warnings.length + ' warnings found. Uh-oh!'
     }
 
     console.log('Auditing heading outline in:')
     console.log(this.node)
     console.log('')
-    
+
     warnings.forEach(function (warning) {
       console.log(warning.message)
       console.log(warning.node)
@@ -75,7 +75,7 @@
 
     console.log('')
     console.log(end)
-  };
+  }
 
   Outline.prototype.audit = function () {
     var warnings = []
@@ -94,7 +94,7 @@
     }
 
     this.outline.children.forEach(function (heading) {
-      if (heading.level != 1) {
+      if (heading.level !== 1) {
         warnings.push({
           message: '〰 Heading “' + heading.text + '” is level ' + heading.level + ' but it comes at root of document.',
           node: heading.node
