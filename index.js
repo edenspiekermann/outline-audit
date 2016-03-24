@@ -9,6 +9,13 @@
   }
 
   /**
+   * Get level from heading node
+   */
+  function getLevel (node) {
+    return parseInt(node.tagName.slice(1), 10)
+  }
+
+  /**
    * Poor man’s _.get(..)
    */
   function reach (object, path) {
@@ -29,7 +36,7 @@
     var currentPath = []
 
     Array.prototype.forEach.call(headings, function (heading) {
-      var level = parseInt(heading.tagName.slice(1), 10)
+      var level = getLevel(heading)
       var data = {
         text: heading.textContent || heading.innerText,
         level: level,
@@ -51,6 +58,7 @@
 
     return outline
   }
+
 
   Outline.prototype.warn = function () {
     var warnings = this.audit()
@@ -77,29 +85,26 @@
     console.log(end)
   }
 
+
   Outline.prototype.audit = function () {
     var warnings = []
 
     function auditOutline (outline) {
       outline.children.forEach(function (heading) {
-        if (heading.level > outline.level + 1) {
-          warnings.push({
-            message: '〰 Heading “' + heading.text + '” is level ' + heading.level + ' but previous heading was level ' + outline.level + ' (“' + outline.text + '”).',
-            node: heading.node
-          })
-        }
+        heading.level > outline.level + 1 && warnings.push({
+          message: '〰 Heading “' + heading.text + '” is level ' + heading.level + ' but previous heading was level ' + outline.level + ' (“' + outline.text + '”).',
+          node: heading.node
+        })
 
         auditOutline(heading)
       })
     }
 
     this.outline.children.forEach(function (heading) {
-      if (heading.level !== 1) {
-        warnings.push({
-          message: '〰 Heading “' + heading.text + '” is level ' + heading.level + ' but it comes at root of document.',
-          node: heading.node
-        })
-      }
+      heading.level !== 1 && warnings.push({
+        message: '〰 Heading “' + heading.text + '” is level ' + heading.level + ' but it comes at root of document.',
+        node: heading.node
+      })
 
       auditOutline(heading)
     })
