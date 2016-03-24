@@ -92,4 +92,11 @@ describe('Heading outline', function () {
     expect(warnings.length).to.be.equal(1)
     expect(warnings[0].node).to.be.equal(container.querySelector('h6'))
   })
+
+  it('should return no warning for a container with a sibling headings (h1 -> h1)', function () {
+    var container = document.getElementById('test-12')
+    var o = new Outline(container)
+    var warnings = o.audit()
+    expect(warnings.length).to.be.equal(0)
+  })
 })
