@@ -32,7 +32,7 @@
   Outline.prototype.get = function () {
     var outline = { children: [] }
     var headings = this.node.querySelectorAll('h1, h2, h3, h4, h5, h6')
-    var lastLevel = null
+    var lastLevel = 0
     var currentPath = []
 
     Array.prototype.forEach.call(headings, function (heading) {
@@ -44,7 +44,7 @@
         children: []
       }
 
-      if (lastLevel && level < lastLevel) {
+      if (level < lastLevel) {
         for (var i = lastLevel; i >= level; i--) currentPath.pop()
       } else if (level === lastLevel) {
         currentPath.pop()
