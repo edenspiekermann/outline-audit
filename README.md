@@ -2,6 +2,8 @@
 
 This small script analyses the heading outline of the document (or given container), and report possible errors. It can be dropped in the DevTools directly, put into a bookmarklet or integrated to a testing suite for example. It’s pretty much up to you.
 
+Bookmarklet: <a href="javascript:!function(e,n,t){n=e.body,t=e.createElement('script'),t.src='https://cdn.rawgit.com/edenspiekermann/outline-audit/master/index.js',t.async=!0,t.onload=function(){new Outline().warn()},n.appendChild(t)}(document);">Outline</a>
+
 ## Basic usage
 
 Display warnings in the console:
