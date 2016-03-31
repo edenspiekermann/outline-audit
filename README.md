@@ -7,13 +7,13 @@ This small script analyses the heading outline of the document (or given contain
 Unfortunately, GitHub prevents JS links in README, so you’ll have to make the bookmarklet yourself. Here is the code:
 
 ```js
-!function(e,n,t){n=e.body,t=e.createElement('script'),t.src='https://cdn.rawgit.com/edenspiekermann/outline-audit/master/index.js',t.async=!0,t.onload=function(){new Outline().warn()},n.appendChild(t)}(document);
+(function(e,n,t){n=e.body,t=e.createElement('script'),t.src='https://cdn.rawgit.com/edenspiekermann/outline-audit/master/index.js',t.async=!0,t.onload=function(){new Outline().warn()},n.appendChild(t)}(document));
 ```
 
 And wrapped with a link already:
 
 ```html
-<a href="javascript:!function(e,n,t){n=e.body,t=e.createElement('script'),t.src='https://cdn.rawgit.com/edenspiekermann/outline-audit/master/index.js',t.async=!0,t.onload=function(){new Outline().warn()},n.appendChild(t)}(document);">Audit document outline</a>
+<a href="javascript:(function(e,n,t){n=e.body,t=e.createElement('script'),t.src='https://cdn.rawgit.com/edenspiekermann/outline-audit/master/index.js',t.async=!0,t.onload=function(){new Outline().warn()},n.appendChild(t)}(document));">Audit document outline</a>
 ```
 
 ## DevTools snippet
