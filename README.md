@@ -46,7 +46,7 @@ Get the outline itself:
 
 ```js
 var outline = new Outline()
-outline.get()
+outline.parse()
 ```
 
 ## About the document outline

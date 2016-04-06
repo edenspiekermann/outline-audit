@@ -41,11 +41,11 @@
 
   var Outline = function (node) {
     this.node = node || document
-    this.outline = this.get()
+    this.outline = this.parse()
     this.warnings = this.audit()
   }
 
-  Outline.prototype.get = function () {
+  Outline.prototype.parse = function () {
     var outline = { children: [] }
     var headings = this.node.querySelectorAll('h1, h2, h3, h4, h5, h6')
     var lastLevel = 0
