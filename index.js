@@ -18,7 +18,7 @@
   /**
    * Poor man’s _.get(..)
    */
-  function reach (object, path) {
+  function get (object, path) {
     return path.reduce(function (prev, curr) {
       return prev[curr]
     }, object)
@@ -66,7 +66,7 @@
         currentPath.pop()
       }
 
-      var prop = reach(outline, getObjectPath(currentPath))
+      var prop = get(outline, getObjectPath(currentPath))
       prop.children.push(data)
       currentPath.push(prop.children.length - 1)
       lastLevel = level
