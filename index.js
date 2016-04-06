@@ -24,9 +24,25 @@
     }, object)
   }
 
+  function auditOutline (outline) {
+    var warnings = []
+
+    outline.children.forEach(function (heading) {
+      heading.level > outline.level + 1 && warnings.push({
+        message: '〰 Heading “' + heading.text + '” is level ' + heading.level + ' but previous heading was level ' + outline.level + ' (“' + outline.text + '”).',
+        node: heading.node
+      })
+
+      warnings = warnings.concat(auditOutline(heading))
+    })
+
+    return warnings
+  }
+
   var Outline = function (node) {
     this.node = node || document
     this.outline = this.get()
+    this.warnings = this.audit()
   }
 
   Outline.prototype.get = function () {
@@ -61,22 +77,21 @@
 
 
   Outline.prototype.warn = function () {
-    var warnings = this.audit()
     var end = ''
 
-    if (warnings.length === 0) {
-      end = '💯 ' + 'Outline audit over. 0 warning found. Congratulations!'
-    } else if (warnings.length === 1) {
+    if (this.warnings.length === 0) {
+      end = '💯 ' + 'Outline audit over. 0 warnings found. Congratulations!'
+    } else if (this.warnings.length === 1) {
       end = '❗️ ' + 'Outline audit over. 1 warning found. Not bad!'
     } else {
-      end = '💢 ' + 'Outline audit over. ' + warnings.length + ' warnings found. Uh-oh!'
+      end = '💢 ' + 'Outline audit over. ' + this.warnings.length + ' warnings found. Uh-oh!'
     }
 
     console.log('Auditing heading outline in:')
     console.log(this.node)
     console.log('')
 
-    warnings.forEach(function (warning) {
+    this.warnings.forEach(function (warning) {
       console.log(warning.message)
       console.log(warning.node)
     })
@@ -85,20 +100,8 @@
     console.log(end)
   }
 
-
   Outline.prototype.audit = function () {
     var warnings = []
-
-    function auditOutline (outline) {
-      outline.children.forEach(function (heading) {
-        heading.level > outline.level + 1 && warnings.push({
-          message: '〰 Heading “' + heading.text + '” is level ' + heading.level + ' but previous heading was level ' + outline.level + ' (“' + outline.text + '”).',
-          node: heading.node
-        })
-
-        auditOutline(heading)
-      })
-    }
 
     this.outline.children.forEach(function (heading) {
       heading.level !== 1 && warnings.push({
@@ -106,7 +109,7 @@
         node: heading.node
       })
 
-      auditOutline(heading)
+      warnings = warnings.concat(auditOutline(heading))
     })
 
     return warnings
